@@ -69,6 +69,7 @@ Format: `tipe(scope): deskripsi imperatif singkat`, dengan tipe
 | `docs/week8-corrections` | Koreksi nomor issue/PR + catat temuan SDK drift | #12 | ✅ merged |
 | `docs/merge-and-issue-notes` | Catat merge commit + penutupan issue manual | #13 | ✅ merged |
 | `docs/week8-final-sync` | Sinkronkan status issue/PR + bukti CI di README | #14 | ✅ merged |
+| `docs/week8-ci-summary` | Ringkas bukti CI agar tidak cepat basi | #15 | ✅ merged |
 
 Semua branch kerja di atas sudah dihapus setelah merge (lokal dan remote),
 sehingga repository hanya menyisakan `main` dan `develop`.
