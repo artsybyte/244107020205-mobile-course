@@ -19,8 +19,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
+          # Dipin, bukan `channel: stable`. Flutter 3.50.0 (stable sejak
+          # 11 Nov 2026) men-deprecate package:flutter/material.dart sehingga
+          # `flutter analyze` gagal dengan puluhan info deprecated_member_use
+          # tanpa ada perubahan kode sama sekali. Migrasi ke material_ui
+          # dilacak di issue #10.
+          flutter-version: 3.47.2
           channel: stable
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
       - name: flutter analyze
         run: flutter analyze
       - name: dart format (harus bersih)
@@ -38,8 +44,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: 3.47.2
           channel: stable
-      - run: flutter pub get
+      - run: flutter pub get --enforce-lockfile
       - name: flutter analyze
         run: flutter analyze
       - name: flutter test
