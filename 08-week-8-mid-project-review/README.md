@@ -59,7 +59,19 @@ tertunda; yang tersisa adalah perbaikan kecil yang sudah tercatat sebagai issue.
 | [#11](https://github.com/artsybyte/244107020205-mobile-course/pull/11) | chore(ci): pin Flutter 3.47.2 agar analyze tidak merah | `fix/ci-pin-toolchain` → `develop` | Closes #8 | 🟡 open |
 | [#12](https://github.com/artsybyte/244107020205-mobile-course/pull/12) | docs: koreksi nomor issue/PR dan catat temuan SDK drift | `docs/week8-corrections` → `develop` | — | 🟡 open |
 
-Alur: `issue → branch → commit kecil → PR "Closes #N" → review → squash merge`.
+Alur: `issue → branch → commit kecil → PR "Closes #N" → review → merge → branch dihapus`.
+
+Dua catatan teknis yang ditemukan saat eksekusi:
+
+1. **Merge commit, bukan squash.** Semua PR di-merge dengan *merge commit* agar SHA
+   commit di branch tetap utuh, sehingga branch lain yang di-rebase di atasnya
+   (`feat/notes-validation` di atas `fix/notes-green-suite`) tidak perlu di-rebase
+   ulang. Squash tetap disarankan bila commit perantara berantakan.
+2. **Issue tidak tertutup otomatis.** Keyword `Closes #N` hanya menutup issue bila
+   PR di-merge ke *default branch* (`main`). Karena PR masuk ke `develop`, issue
+   #5–#9 ditutup manual dengan komentar yang menyebut PR penyelesaiannya. Untuk
+   otomatisasi penuh, `develop` perlu dijadikan default branch atau issue ditutup
+   saat rilis ke `main`.
 
 Detail lengkap issue, body PR, dan komentar review ada di
 [`docs/pr-issue.md`](docs/pr-issue.md).
