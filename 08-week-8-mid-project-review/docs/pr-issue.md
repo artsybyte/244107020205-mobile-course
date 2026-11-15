@@ -124,9 +124,11 @@ koneksi berdampak ke seluruh alur aplikasi.
 | #1 | `fix/notes-green-suite` → `develop` | Closes #5 | merged | merah (SDK drift) |
 | #2 | `chore/ci` → `develop` | Closes #8 | merged | merah (SDK drift) |
 | #3 | `docs/week8-mid-review` → `develop` | Closes #9 | merged | merah (SDK drift) |
-| #4 | `feat/notes-validation` → `develop` | Closes #6, #7 | open | hijau setelah sinkron `develop` |
+| #4 | `feat/notes-validation` → `develop` | Closes #6, #7 | merged | hijau (setelah sinkron `develop`) |
 | #11 | `fix/ci-pin-toolchain` → `develop` | Closes #8 | merged | hijau |
-| #12 | `docs/week8-corrections` → `develop` | — | open | hijau |
+| #12 | `docs/week8-corrections` → `develop` | — | merged | hijau |
+| #13 | `docs/merge-and-issue-notes` → `develop` | — | merged | hijau |
+| #14 | `docs/week8-final-sync` → `develop` | — | merged | hijau |
 
 > **Catatan jujur soal CI:** PR #1–#3 di-merge saat semua workflow masih merah.
 > Penyebabnya bukan kode PR, melainkan `channel: stable` yang bergeser ke Flutter
@@ -317,6 +319,55 @@ Cara uji:
 - Bandingkan setiap nomor di dokumen dengan halaman issue/PR di GitHub.
 ```
 
+### PR #13 — `docs/merge-and-issue-notes` → `develop`
+
+```
+Judul: docs: catat penggunaan merge commit dan penutupan issue manual
+
+Masalah:
+README minggu 8 menyebut alur berakhir dengan "squash merge" dan bahwa issue
+tertutup otomatis oleh PR. Dua-duanya tidak sesuai kenyataan:
+1. Semua PR di-merge dengan merge commit, bukan squash.
+2. Issue #5-#9 tidak tertutup otomatis karena keyword `Closes #N` hanya berlaku
+   saat merge ke default branch (`main`), sedangkan PR masuk ke `develop`.
+
+Solusi:
+- Menambah alasan memakai merge commit: SHA branch tetap utuh sehingga
+  `feat/notes-validation` yang dibangun di atas `fix/notes-green-suite` tidak
+  perlu di-rebase ulang.
+- Menjelaskan mengapa issue ditutup manual, plus opsi otomatisasi (`develop`
+  dijadikan default branch, atau issue ditutup saat rilis ke `main`).
+
+Cara uji:
+- Baca bagian "Peta Issue / PR" di README dan bandingkan dengan halaman
+  issue/PR di GitHub.
+```
+
+### PR #14 — `docs/week8-final-sync` → `develop`
+
+```
+Judul: docs(week8): sinkronkan status issue/PR dan tambah bukti CI
+
+Masalah:
+Isi folder minggu 8 ditulis sebelum PR terakhir di-merge, sehingga:
+- PR #4, #11, #12 masih berstatus open padahal sudah merged;
+- PR #13 belum tercatat;
+- review-checklist menyebut "PR #2" untuk perubahan milik PR #4;
+- issue disebut tertutup otomatis padahal ditutup manual;
+- belum ada bukti CI hijau di README.
+
+Solusi:
+- README: status final issue/PR, tabel PR dengan kolom CI, bagian "Bukti CI
+  Hijau" (8 run success), dan tabel "Kesesuaian dengan Definisi Selesai Codelab".
+- review-checklist: koreksi nomor PR dan status penutupan issue.
+- branching: semua branch merged + aturan merge commit vs squash.
+- pr-issue: status final, tambah PR #13 dan #14, "Issue F" -> "Issue #10".
+
+Cara uji:
+grep -rn "#<" 08-week-8-mid-project-review/     -> kosong
+grep -rn "open |" 08-week-8-mid-project-review/ -> kosong
+```
+
 ---
 
 ## 3. Review 15 Menit (Self-review)
@@ -368,7 +419,7 @@ aplikasi. Format: **observasi → dampak → usulan konkret**.
 > **Usulan:** tambahkan `test/note_repository_test.dart` memakai
 > `sqflite_common_ffi` dengan database in-memory.
 > **Temuan sampingan:** repository membuka koneksi baru per operasi → dicatat
-> sebagai Issue F.
+> sebagai Issue #10.
 
 ### Keterbacaan (1 saran)
 

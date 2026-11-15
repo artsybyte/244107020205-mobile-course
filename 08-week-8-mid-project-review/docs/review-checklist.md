@@ -41,10 +41,10 @@ Setiap baris menjelaskan **apa** yang diubah, **di mana** (scope), dan **buktiny
 | 2 | `flutter analyze` bersih | ✅ | `No issues found!` (week5 & week7) |
 | 3 | `dart format` rapi | ✅ week5 / ⚠️ week7 | week5: `Formatted 27 files (0 changed)`; week7 masih 15 file (issue lanjutan) |
 | 4 | `flutter test` hijau | ✅ | week5: 23 test lulus; week7: 14 test lulus |
-| 5 | PR kecil (< 300 baris) + commit jelas | ✅ | PR #2: 8 berkas, +308 / −51 baris, 5 commit bertipe |
+| 5 | PR kecil (< 300 baris) + commit jelas | ✅ | PR #4: 8 berkas, +308 / −51 baris, 5 commit bertipe |
 | 6 | README + screenshot + cara menjalankan | ✅ | `08-week-8-mid-project-review/README.md` |
 | 7 | Semua komentar review ditindaklanjuti | ✅ | `docs/pr-issue.md` |
-| 8 | Issue tertutup otomatis oleh PR | ✅ | `Closes #<nomor-issue>` pada body PR |
+| 8 | Issue tertutup oleh PR | ✅ manual | Body PR memakai `Closes #N`; karena PR masuk ke `develop` (bukan default branch `main`), issue #5–#9 ditutup manual dengan komentar penunjuk PR |
 | 9 | CI menolak PR kotor | ✅ | `.github/workflows/ci.yml` |
 | 10 | Saran AI diverifikasi sebelum diterapkan | ✅ | `docs/ai-review-vs-keputusan.md` |
 
