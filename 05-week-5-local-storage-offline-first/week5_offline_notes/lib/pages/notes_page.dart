@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/local/note.dart';
 import '../data/note_providers.dart';
+import '../widgets/add_note_dialog.dart';
 import '../widgets/note_tile.dart';
 
 class NotesPage extends ConsumerWidget {
@@ -78,44 +79,11 @@ class NotesPage extends ConsumerWidget {
   }
 
   Future<void> _addNote(BuildContext context, WidgetRef ref) async {
-    final titleController = TextEditingController();
-    final bodyController = TextEditingController();
-    final shouldSave = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('New note'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
-            ),
-            TextField(
-              controller: bodyController,
-              decoration: const InputDecoration(labelText: 'Body'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
-    if (shouldSave != true || titleController.text.trim().isEmpty) return;
+    final draft = await AddNoteDialog.show(context);
+    if (draft == null) return;
     await ref
         .read(noteRepositoryProvider)
-        .addNote(
-          title: titleController.text.trim(),
-          body: bodyController.text.trim(),
-        );
+        .addNote(title: draft.title, body: draft.body);
     ref.invalidate(notesProvider);
     ref.invalidate(dirtyCountProvider);
   }
