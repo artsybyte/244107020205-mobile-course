@@ -19,17 +19,25 @@ final forceOfflineProvider = NotifierProvider<ForceOfflineNotifier, bool>(
   ForceOfflineNotifier.new,
 );
 
-final notesProvider = FutureProvider<List<Note>>((ref) {
-  return ref.watch(noteRepositoryProvider).fetchNotes();
-});
+// Error database lokal tidak akan pulih sendiri, jadi retry otomatis Riverpod
+// (backoff eksponensial) dimatikan agar ErrorView langsung tampil alih-alih
+// spinner berputar puluhan detik.
+Duration? _noRetry(int retryCount, Object error) => null;
 
-final noteDetailProvider = FutureProvider.family<Note?, int>((ref, id) {
-  return ref.watch(noteRepositoryProvider).fetchNote(id);
-});
+final notesProvider = FutureProvider<List<Note>>(
+  (ref) => ref.watch(noteRepositoryProvider).fetchNotes(),
+  retry: _noRetry,
+);
 
-final dirtyCountProvider = FutureProvider<int>((ref) {
-  return ref.watch(noteRepositoryProvider).countDirty();
-});
+final noteDetailProvider = FutureProvider.family<Note?, int>(
+  (ref, id) => ref.watch(noteRepositoryProvider).fetchNote(id),
+  retry: _noRetry,
+);
+
+final dirtyCountProvider = FutureProvider<int>(
+  (ref) => ref.watch(noteRepositoryProvider).countDirty(),
+  retry: _noRetry,
+);
 
 Future<int> syncNotesFromProvider(WidgetRef ref) async {
   final synced = await syncNotes(

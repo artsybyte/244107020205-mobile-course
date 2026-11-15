@@ -49,5 +49,4 @@ class PostRepository {
       await batch.commit(noResult: true);
     });
   }
-
 }
