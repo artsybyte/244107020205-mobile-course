@@ -32,7 +32,7 @@ class NoteDetailPage extends ConsumerWidget {
               Text('Updated: ${item.updatedAt.toLocal()}'),
               const SizedBox(height: 8),
               Text(
-                item.dirty ? 'Belum tersinkron' : 'tersinkron',
+                item.dirty ? 'Belum tersinkron' : 'Tersinkron',
                 style: TextStyle(
                   color: item.dirty ? Colors.orange.shade800 : Colors.teal,
                   fontWeight: FontWeight.bold,
