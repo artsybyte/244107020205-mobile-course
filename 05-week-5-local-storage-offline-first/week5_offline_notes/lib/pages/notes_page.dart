@@ -94,10 +94,21 @@ class NotesPage extends ConsumerWidget {
 
   Future<void> _addNote(BuildContext context, WidgetRef ref) async {
     final draft = await AddNoteDialog.show(context);
-    if (draft == null) return;
-    await ref
-        .read(noteRepositoryProvider)
-        .addNote(title: draft.title, body: draft.body);
+    if (draft == null || !context.mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref
+          .read(noteRepositoryProvider)
+          .addNote(title: draft.title, body: draft.body);
+    } catch (error) {
+      // Sebelumnya exception SQLite naik tanpa jejak di UI, sehingga pengguna
+      // mengira catatan tersimpan padahal gagal.
+      messenger.showSnackBar(
+        SnackBar(content: Text('Gagal menyimpan catatan: $error')),
+      );
+      return;
+    }
     ref.invalidate(notesProvider);
     ref.invalidate(dirtyCountProvider);
   }
