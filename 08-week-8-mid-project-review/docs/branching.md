@@ -56,6 +56,7 @@ Format: `tipe(scope): deskripsi imperatif singkat`, dengan tipe
 
 | Branch | Tujuan | PR |
 |:-------|:-------|:---|
-| `feat/notes-validation` | Fix test, format, validasi judul, retry provider | PR #2 |
+| `fix/notes-green-suite` | Fix test timeout, retry provider, `dart format`, test integrasi SQLite | PR #1 |
+| `feat/notes-validation` | Validasi judul, SnackBar error, refactor orkestrasi sync | PR #2 |
 | `chore/ci` | Workflow CI analyze + format + test | PR #3 |
 | `docs/week8-mid-review` | Artefak review minggu 8 | PR #4 |

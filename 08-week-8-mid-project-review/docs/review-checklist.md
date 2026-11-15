@@ -39,9 +39,9 @@ Setiap baris menjelaskan **apa** yang diubah, **di mana** (scope), dan **buktiny
 |:-:|:---------|:------:|:------|
 | 1 | Struktur feature-first terbukti (tiga grep sterilitas) | ✅ | Lihat bagian 3 |
 | 2 | `flutter analyze` bersih | ✅ | `No issues found!` (week5 & week7) |
-| 3 | `dart format` rapi | ✅ week5 / ⚠️ week7 | week5: `Formatted 25 files (0 changed)`; week7 masih 15 file (issue lanjutan) |
-| 4 | `flutter test` hijau | ✅ | week5: 17 test lulus; week7: 14 test lulus |
-| 5 | PR kecil (< 300 baris) + commit jelas | ✅ | PR #2: 263 baris berubah, 4 commit bertipe |
+| 3 | `dart format` rapi | ✅ week5 / ⚠️ week7 | week5: `Formatted 27 files (0 changed)`; week7 masih 15 file (issue lanjutan) |
+| 4 | `flutter test` hijau | ✅ | week5: 23 test lulus; week7: 14 test lulus |
+| 5 | PR kecil (< 300 baris) + commit jelas | ✅ | PR #2: 8 berkas, +308 / −51 baris, 5 commit bertipe |
 | 6 | README + screenshot + cara menjalankan | ✅ | `08-week-8-mid-project-review/README.md` |
 | 7 | Semua komentar review ditindaklanjuti | ✅ | `docs/pr-issue.md` |
 | 8 | Issue tertutup otomatis oleh PR | ✅ | `Closes #<nomor-issue>` pada body PR |
