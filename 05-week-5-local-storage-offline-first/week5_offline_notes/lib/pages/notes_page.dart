@@ -3,8 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/local/note.dart';
 import '../data/note_providers.dart';
+import '../data/sync.dart';
 import '../widgets/add_note_dialog.dart';
 import '../widgets/note_tile.dart';
+
+/// Orkestrasi sync milik lapisan presentasi: memanggil use case data layer
+/// lalu menyegarkan provider. Sebelumnya fungsi ini tinggal di `lib/data`
+/// dan menerima `WidgetRef`, sehingga data layer bergantung pada Flutter.
+Future<int> _syncNotes(WidgetRef ref) async {
+  final synced = await syncNotes(
+    ref.read(noteRepositoryProvider),
+    forceOffline: ref.read(forceOfflineProvider),
+  );
+  ref.invalidate(notesProvider);
+  ref.invalidate(dirtyCountProvider);
+  return synced;
+}
 
 class NotesPage extends ConsumerWidget {
   const NotesPage({super.key});
@@ -60,7 +74,7 @@ class NotesPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final count = await syncNotesFromProvider(ref);
+          final count = await _syncNotes(ref);
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'local/note.dart';
 import 'repositories/note_repository.dart';
-import 'sync.dart';
 
 final noteRepositoryProvider = Provider<NoteRepository>((ref) {
   return NoteRepository();
@@ -38,13 +37,3 @@ final dirtyCountProvider = FutureProvider<int>(
   (ref) => ref.watch(noteRepositoryProvider).countDirty(),
   retry: _noRetry,
 );
-
-Future<int> syncNotesFromProvider(WidgetRef ref) async {
-  final synced = await syncNotes(
-    ref.read(noteRepositoryProvider),
-    forceOffline: ref.read(forceOfflineProvider),
-  );
-  ref.invalidate(notesProvider);
-  ref.invalidate(dirtyCountProvider);
-  return synced;
-}
