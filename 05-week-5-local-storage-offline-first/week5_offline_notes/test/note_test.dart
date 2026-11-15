@@ -18,7 +18,10 @@ class FakeNoteRepository extends NoteRepository {
   }
 
   @override
-  Future<int> countDirty() => Future.value(items.where((n) => n.dirty).length);
+  Future<int> countDirty() async {
+    if (throwError) throw Exception('db locked (simulasi)');
+    return items.where((n) => n.dirty).length;
+  }
 }
 
 void main() {
@@ -64,11 +67,33 @@ void main() {
       ],
     );
     addTearDown(container.dispose);
-    try {
-      await container.read(notesProvider.future);
-      fail('Expected the notes provider to fail');
-    } catch (error) {
-      expect(error, isA<Exception>());
-    }
+    // FutureProvider bersifat auto-dispose: tanpa listener, provider dibuang
+    // saat masih loading sehingga error aslinya hilang. Listener menjaga
+    // provider tetap hidup sampai future selesai.
+    final subscription = container.listen(notesProvider, (_, _) {});
+    addTearDown(subscription.close);
+
+    await expectLater(
+      container.read(notesProvider.future),
+      throwsA(isA<Exception>()),
+    );
+  });
+
+  test('countDirty ikut gagal saat repository error', () async {
+    final container = ProviderContainer(
+      overrides: [
+        noteRepositoryProvider.overrideWithValue(
+          FakeNoteRepository(throwError: true),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+    final subscription = container.listen(dirtyCountProvider, (_, _) {});
+    addTearDown(subscription.close);
+
+    await expectLater(
+      container.read(dirtyCountProvider.future),
+      throwsA(isA<Exception>()),
+    );
   });
 }
