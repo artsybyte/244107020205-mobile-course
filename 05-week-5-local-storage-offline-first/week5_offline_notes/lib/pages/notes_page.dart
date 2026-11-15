@@ -3,7 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/local/note.dart';
 import '../data/note_providers.dart';
+import '../data/sync.dart';
+import '../widgets/add_note_dialog.dart';
 import '../widgets/note_tile.dart';
+
+/// Orkestrasi sync milik lapisan presentasi: memanggil use case data layer
+/// lalu menyegarkan provider. Sebelumnya fungsi ini tinggal di `lib/data`
+/// dan menerima `WidgetRef`, sehingga data layer bergantung pada Flutter.
+Future<int> _syncNotes(WidgetRef ref) async {
+  final synced = await syncNotes(
+    ref.read(noteRepositoryProvider),
+    forceOffline: ref.read(forceOfflineProvider),
+  );
+  ref.invalidate(notesProvider);
+  ref.invalidate(dirtyCountProvider);
+  return synced;
+}
 
 class NotesPage extends ConsumerWidget {
   const NotesPage({super.key});
@@ -59,7 +74,7 @@ class NotesPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final count = await syncNotesFromProvider(ref);
+          final count = await _syncNotes(ref);
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -78,44 +93,22 @@ class NotesPage extends ConsumerWidget {
   }
 
   Future<void> _addNote(BuildContext context, WidgetRef ref) async {
-    final titleController = TextEditingController();
-    final bodyController = TextEditingController();
-    final shouldSave = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('New note'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
-            ),
-            TextField(
-              controller: bodyController,
-              decoration: const InputDecoration(labelText: 'Body'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
-    if (shouldSave != true || titleController.text.trim().isEmpty) return;
-    await ref
-        .read(noteRepositoryProvider)
-        .addNote(
-          title: titleController.text.trim(),
-          body: bodyController.text.trim(),
-        );
+    final draft = await AddNoteDialog.show(context);
+    if (draft == null || !context.mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref
+          .read(noteRepositoryProvider)
+          .addNote(title: draft.title, body: draft.body);
+    } catch (error) {
+      // Sebelumnya exception SQLite naik tanpa jejak di UI, sehingga pengguna
+      // mengira catatan tersimpan padahal gagal.
+      messenger.showSnackBar(
+        SnackBar(content: Text('Gagal menyimpan catatan: $error')),
+      );
+      return;
+    }
     ref.invalidate(notesProvider);
     ref.invalidate(dirtyCountProvider);
   }
