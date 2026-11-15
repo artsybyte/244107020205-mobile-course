@@ -19,14 +19,15 @@ Pull Request kecil, review, dan bukti mesin hijau.
 | Aspek | Status | Catatan |
 |:------|:------:|:--------|
 | Aplikasi berjalan | ✅ | Perilaku identik dengan akhir Minggu 5: tambah catatan, toggle force offline, sync, badge dirty |
-| `flutter analyze` | ✅ | `No issues found!` pada week5 dan week7 |
+| `flutter analyze` | ✅ | `No issues found!` pada week5 dan week7 (Flutter 3.47.2) |
 | `dart format` | ✅ week5 / ⚠️ week7 | week5 bersih; week7 masih 15 berkas (issue lanjutan) |
 | `flutter test` | ✅ | week5 **23 test**, week7 **14 test**, semua lulus |
 | Struktur feature-first | ✅ week7 | Tiga grep sterilitas lolos; week5 sengaja tetap layer-first |
-| PR kecil + commit jelas | ✅ | 4 PR, masing-masing < 350 baris perubahan |
+| PR kecil + commit jelas | ✅ | 4 PR fitur, masing-masing < 350 baris perubahan |
 | Review ditindaklanjuti | ✅ | 2 blocker + 3 saran, semua punya bukti |
-| CI menolak PR kotor | ✅ | `.github/workflows/ci.yml` |
+| CI menolak PR kotor | ✅ | `.github/workflows/ci.yml`, toolchain dipin |
 | Dokumentasi AI review | ✅ | `docs/ai-review-*.md` |
+| Toolchain reproducible | ✅ | Flutter dipin `3.47.2` + `pubspec.lock` di-commit |
 
 **Kesimpulan:** fondasi layak dilanjutkan. Tidak ada pekerjaan besar yang
 tertunda; yang tersisa adalah perbaikan kecil yang sudah tercatat sebagai issue.
@@ -37,12 +38,26 @@ tertunda; yang tersisa adalah perbaikan kecil yang sudah tercatat sebagai issue.
 
 | Issue | Judul | PR | Branch | Status |
 |:------|:------|:---|:-------|:-------|
-| A | Suite test gagal (timeout 30 s) + format | #1 | `fix/notes-green-suite` | menunggu merge |
-| B | Validasi judul kosong | #2 | `feat/notes-validation` | menunggu merge (setelah #1) |
-| C | Kegagalan simpan tanpa umpan balik | #2 | `feat/notes-validation` | menunggu merge |
-| D | Belum ada CI | #3 | `chore/ci` | menunggu merge |
-| E | Dokumentasi mid review | #4 | `docs/week8-mid-review` | menunggu merge |
-| F | Koneksi database dibuka per operasi | — | — | follow-up |
+| [#5](https://github.com/artsybyte/244107020205-mobile-course/issues/5) | Suite test gagal (timeout 30 s) + format | [#1](https://github.com/artsybyte/244107020205-mobile-course/pull/1) | `fix/notes-green-suite` | ✅ merged |
+| [#6](https://github.com/artsybyte/244107020205-mobile-course/issues/6) | Validasi judul kosong | [#4](https://github.com/artsybyte/244107020205-mobile-course/pull/4) | `feat/notes-validation` | 🟡 open |
+| [#7](https://github.com/artsybyte/244107020205-mobile-course/issues/7) | Kegagalan simpan tanpa umpan balik | [#4](https://github.com/artsybyte/244107020205-mobile-course/pull/4) | `feat/notes-validation` | 🟡 open |
+| [#8](https://github.com/artsybyte/244107020205-mobile-course/issues/8) | Belum ada CI | [#2](https://github.com/artsybyte/244107020205-mobile-course/pull/2) | `chore/ci` | ✅ merged |
+| [#9](https://github.com/artsybyte/244107020205-mobile-course/issues/9) | Dokumentasi mid review | [#3](https://github.com/artsybyte/244107020205-mobile-course/pull/3) | `docs/week8-mid-review` | ✅ merged |
+| [#10](https://github.com/artsybyte/244107020205-mobile-course/issues/10) | Koneksi DB per operasi + migrasi `material_ui` | — | — | follow-up |
+
+> Nomor issue dan PR berbagi urutan yang sama di GitHub. Karena PR #1–#4 dibuat
+> lebih dulu, issue baru otomatis mendapat nomor **#5–#10**.
+
+### Daftar Pull Request
+
+| PR | Judul | Branch → base | Terkait | Status |
+|:---|:------|:--------------|:--------|:-------|
+| [#1](https://github.com/artsybyte/244107020205-mobile-course/pull/1) | fix(notes): hijaukan suite test dan terapkan dart format | `fix/notes-green-suite` → `develop` | Closes #5 | ✅ merged |
+| [#2](https://github.com/artsybyte/244107020205-mobile-course/pull/2) | chore(ci): jalankan analyze, format, dan test pada pull request | `chore/ci` → `develop` | Closes #8 | ✅ merged |
+| [#3](https://github.com/artsybyte/244107020205-mobile-course/pull/3) | docs: artefak Mid Project Review Minggu 8 | `docs/week8-mid-review` → `develop` | Closes #9 | ✅ merged |
+| [#4](https://github.com/artsybyte/244107020205-mobile-course/pull/4) | feat(notes): validasi judul kosong + tindak lanjut review | `feat/notes-validation` → `develop` | Closes #6, #7 | 🟡 open |
+| [#11](https://github.com/artsybyte/244107020205-mobile-course/pull/11) | chore(ci): pin Flutter 3.47.2 agar analyze tidak merah | `fix/ci-pin-toolchain` → `develop` | Closes #8 | 🟡 open |
+| [#12](https://github.com/artsybyte/244107020205-mobile-course/pull/12) | docs: koreksi nomor issue/PR dan catat temuan SDK drift | `docs/week8-corrections` → `develop` | — | 🟡 open |
 
 Alur: `issue → branch → commit kecil → PR "Closes #N" → review → squash merge`.
 

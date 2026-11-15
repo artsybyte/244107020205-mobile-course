@@ -54,6 +54,35 @@ status paruh semester + peta issue/PR.
 
 ---
 
+## 2b. Temuan Tambahan: SDK Drift Memerahkan CI Tanpa Perubahan Kode
+
+Ini temuan yang **tidak** muncul dari review manual maupun dari AI, tetapi dari CI
+yang baru dipasang — bukti bahwa menolak PR kotor secara otomatis memang berguna.
+
+| Item | Nilai |
+|:-----|:------|
+| Gejala | 5 dari 5 workflow run berstatus `failure`, semuanya berhenti di langkah `flutter analyze` |
+| Cakupan | Kedua job (`week5_offline_notes` dan `week7_campus_notify`), termasuk run pada commit lama yang sebelumnya hijau |
+| Penyebab | Workflow memakai `channel: stable` **tanpa versi**. Pada 11 Nov 2026 stable naik ke **Flutter 3.50.0 / Dart 3.14.0** |
+| Akar masalah | Flutter 3.50 men-deprecate `package:flutter/material.dart` dan `package:flutter/cupertino.dart` (pengganti: `material_ui` / `cupertino_ui`). Setiap import Material menghasilkan info `deprecated_member_use`, dan `flutter analyze` keluar dengan exit code 1 |
+| Bukti lokal | Flutter 3.47.2 / Dart 3.13.2 → `No issues found!` |
+| Bukti CI | `stable` = 3.50.0 / Dart 3.14.0 → `flutter analyze` exit 1 |
+| Bukan penyebab | Dependency (clone bersih + `pub get` fresh tetap bersih di 3.47.2), case-sensitivity path, line ending |
+
+**Perbaikan (PR #11):**
+
+1. Pin `flutter-version: 3.47.2` pada kedua job, dengan komentar alasan di dalam workflow.
+2. Commit `pubspec.lock` untuk dua project yang diperiksa CI, dan pakai
+   `flutter pub get --enforce-lockfile`.
+3. `.gitattributes` dengan `eol=lf` agar `dart format` konsisten antara Windows
+   (`core.autocrlf=true`) dan runner Linux.
+
+**Pelajaran:** *floating* `channel: stable` membuat PR bisa merah (atau hijau)
+tanpa ada perubahan kode sama sekali. Toolchain harus diperlakukan sebagai
+dependency yang dipin. Migrasi ke `material_ui` dilacak di issue #10.
+
+---
+
 ## 3. Bukti Tiga Grep Sterilitas
 
 Dijalankan di `07-week-7-clean-architecture/campus_notify` (project hasil refactor Minggu 7):

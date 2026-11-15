@@ -54,9 +54,11 @@ Format: `tipe(scope): deskripsi imperatif singkat`, dengan tipe
 
 ## Branch aktif pada minggu 8
 
-| Branch | Tujuan | PR |
-|:-------|:-------|:---|
-| `fix/notes-green-suite` | Fix test timeout, retry provider, `dart format`, test integrasi SQLite | PR #1 |
-| `feat/notes-validation` | Validasi judul, SnackBar error, refactor orkestrasi sync | PR #2 |
-| `chore/ci` | Workflow CI analyze + format + test | PR #3 |
-| `docs/week8-mid-review` | Artefak review minggu 8 | PR #4 |
+| Branch | Tujuan | PR | Status |
+|:-------|:-------|:---|:-------|
+| `fix/notes-green-suite` | Fix test timeout, retry provider, `dart format`, test integrasi SQLite | #1 | merged |
+| `chore/ci` | Workflow CI analyze + format + test | #2 | merged |
+| `docs/week8-mid-review` | Artefak review minggu 8 | #3 | merged |
+| `feat/notes-validation` | Validasi judul, SnackBar error, refactor orkestrasi sync | #4 | open |
+| `fix/ci-pin-toolchain` | Pin Flutter 3.47.2 + commit lockfile + `.gitattributes` | #11 | merged |
+| `docs/week8-corrections` | Koreksi nomor issue/PR + catat temuan SDK drift | #12 | open |
