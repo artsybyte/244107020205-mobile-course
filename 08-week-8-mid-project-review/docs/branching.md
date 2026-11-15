@@ -25,7 +25,7 @@ fix/*                  ●──●                       (perbaikan cepat + tes
 ```
 issue #N → branch fix/N-nama-singkat
   → commit kecil (add -p) → PR "Closes #N"
-  → review → squash merge → branch dihapus → issue tertutup
+  → review → merge → branch dihapus → issue ditutup
 ```
 
 ## Aturan operasional
@@ -37,6 +37,11 @@ issue #N → branch fix/N-nama-singkat
    tidak berumur panjang dan konflik tidak menumpuk.
 4. Hapus branch setelah merge supaya daftar branch tetap pendek.
 5. `git add -p` dipakai agar satu commit hanya memuat satu perubahan logis.
+6. Merge memakai **merge commit** (bukan squash) agar SHA commit branch tetap utuh;
+   ini penting saat branch lain dibangun di atas branch yang belum di-merge. Squash
+   dipakai bila commit perantara berantakan.
+7. `Closes #N` hanya menutup issue otomatis jika PR di-merge ke default branch
+   (`main`). Untuk PR ke `develop`, tutup issue manual sambil menyebut nomor PR.
 
 ## Commit yang baik vs buruk
 
@@ -56,9 +61,14 @@ Format: `tipe(scope): deskripsi imperatif singkat`, dengan tipe
 
 | Branch | Tujuan | PR | Status |
 |:-------|:-------|:---|:-------|
-| `fix/notes-green-suite` | Fix test timeout, retry provider, `dart format`, test integrasi SQLite | #1 | merged |
-| `chore/ci` | Workflow CI analyze + format + test | #2 | merged |
-| `docs/week8-mid-review` | Artefak review minggu 8 | #3 | merged |
-| `feat/notes-validation` | Validasi judul, SnackBar error, refactor orkestrasi sync | #4 | open |
-| `fix/ci-pin-toolchain` | Pin Flutter 3.47.2 + commit lockfile + `.gitattributes` | #11 | merged |
-| `docs/week8-corrections` | Koreksi nomor issue/PR + catat temuan SDK drift | #12 | open |
+| `fix/notes-green-suite` | Fix test timeout, retry provider, `dart format`, test integrasi SQLite | #1 | ✅ merged |
+| `chore/ci` | Workflow CI analyze + format + test | #2 | ✅ merged |
+| `docs/week8-mid-review` | Artefak review minggu 8 | #3 | ✅ merged |
+| `feat/notes-validation` | Validasi judul, SnackBar error, refactor orkestrasi sync | #4 | ✅ merged |
+| `fix/ci-pin-toolchain` | Pin Flutter 3.47.2 + commit lockfile + `.gitattributes` | #11 | ✅ merged |
+| `docs/week8-corrections` | Koreksi nomor issue/PR + catat temuan SDK drift | #12 | ✅ merged |
+| `docs/merge-and-issue-notes` | Catat merge commit + penutupan issue manual | #13 | ✅ merged |
+| `docs/week8-final-sync` | Sinkronkan status issue/PR + bukti CI di README | #14 | ✅ merged |
+
+Semua branch kerja di atas sudah dihapus setelah merge (lokal dan remote),
+sehingga repository hanya menyisakan `main` dan `develop`.
