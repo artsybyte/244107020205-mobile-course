@@ -23,7 +23,7 @@ Pull Request kecil, review, dan bukti mesin hijau.
 | `dart format` | ✅ week5 / ⚠️ week7 | week5 bersih; week7 masih 15 berkas (issue lanjutan) |
 | `flutter test` | ✅ | week5 **23 test**, week7 **14 test**, semua lulus |
 | Struktur feature-first | ✅ week7 | Tiga grep sterilitas lolos; week5 sengaja tetap layer-first |
-| PR kecil + commit jelas | ✅ | 8 PR, semua < 350 baris perubahan dan sudah merged |
+| PR kecil + commit jelas | ✅ | 9 PR, semua < 350 baris perubahan dan sudah merged |
 | Review ditindaklanjuti | ✅ | 2 blocker + 3 saran, semua punya bukti |
 | CI menolak PR kotor | ✅ | `.github/workflows/ci.yml`, toolchain dipin |
 | Dokumentasi AI review | ✅ | `docs/ai-review-*.md` |
@@ -60,6 +60,7 @@ tertunda; yang tersisa adalah perbaikan kecil yang sudah tercatat sebagai issue.
 | [#12](https://github.com/artsybyte/244107020205-mobile-course/pull/12) | docs: koreksi nomor issue/PR dan catat temuan SDK drift | `docs/week8-corrections` → `develop` | — | ✅ hijau | ✅ merged |
 | [#13](https://github.com/artsybyte/244107020205-mobile-course/pull/13) | docs: catat penggunaan merge commit dan penutupan issue manual | `docs/merge-and-issue-notes` → `develop` | — | ✅ hijau | ✅ merged |
 | [#14](https://github.com/artsybyte/244107020205-mobile-course/pull/14) | docs(week8): sinkronkan status issue/PR dan tambah bukti CI | `docs/week8-final-sync` → `develop` | — | ✅ hijau | ✅ merged |
+| [#15](https://github.com/artsybyte/244107020205-mobile-course/pull/15) | docs(week8): ringkas bukti CI agar tidak cepat basi | `docs/week8-ci-summary` → `develop` | — | ✅ hijau | ✅ merged |
 
 PR #1–#3 sempat merah bukan karena kodenya, melainkan karena `channel: stable`
 bergeser ke Flutter 3.50. Setelah toolchain dipin di PR #11, semua run berikutnya
@@ -71,16 +72,10 @@ bagian 2b.
 Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — dua job,
 `week5_offline_notes` dan `week7_campus_notify`.
 
-| Run | Branch | Event | Kesimpulan |
-|:---:|:-------|:------|:-----------|
-| #6 | `fix/ci-pin-toolchain` | `pull_request` | ✅ success |
-| #7 | `develop` | `push` | ✅ success |
-| #8 | `feat/notes-validation` | `pull_request` | ✅ success |
-| #9 | `develop` | `push` | ✅ success |
-| #10 | `docs/week8-corrections` | `pull_request` | ✅ success |
-| #11 | `develop` | `push` | ✅ success |
-| #12 | `docs/merge-and-issue-notes` | `pull_request` | ✅ success |
-| #13 | `develop` | `push` | ✅ success |
+Sejak toolchain dipin di PR #11, **tidak ada lagi workflow run yang gagal** —
+seluruh run pada setiap PR dan setiap push ke `develop` berstatus `success`.
+Sebelum itu, 5 run pertama (#1–#5) merah di langkah `flutter analyze` karena
+`channel: stable` bergeser ke Flutter 3.50.
 
 Langkah yang dijalankan per job: `flutter pub get --enforce-lockfile`,
 `flutter analyze`, `dart format --set-exit-if-changed` (khusus week5), dan
@@ -191,7 +186,7 @@ flutter test      # 00:00 +14: All tests passed!
 |:-------------|:------:|:------|
 | Aplikasi berjalan identik dengan akhir Minggu 7 | ✅ | Screenshot di bawah; alur tambah catatan, force offline, sync, badge dirty tetap sama |
 | Tiga pemeriksaan mesin hijau (`analyze`, `dart format`, `test`) | ✅ | Blok perintah di atas + job CI `week5_offline_notes` |
-| Minimal 1 PR kecil di-merge via review | ✅ | 8 PR merged (#1–#4, #11–#14); terkecil 1 berkas, terbesar 8 berkas / +308 −51 |
+| Minimal 1 PR kecil di-merge via review | ✅ | 9 PR merged (#1–#4, #11–#15); terkecil 1 berkas, terbesar 8 berkas / +308 −51 |
 | README memuat status paruh semester + peta issue/PR | ✅ | Bagian [Status Paruh Semester](#status-paruh-semester) dan [Peta Issue / PR](#peta-issue--pr) |
 | Dokumentasi AI review (prompt, output awal, usulan vs keputusan) | ✅ | `docs/ai-review-prompt.md`, `docs/ai-review-initial-output.md`, `docs/ai-review-vs-keputusan.md` |
 | Struktur folder `docs/`, `README.md`, `screenshots/` | ✅ | Lihat [Struktur Folder](#struktur-folder) |

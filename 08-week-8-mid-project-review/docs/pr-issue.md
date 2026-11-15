@@ -129,6 +129,7 @@ koneksi berdampak ke seluruh alur aplikasi.
 | #12 | `docs/week8-corrections` → `develop` | — | merged | hijau |
 | #13 | `docs/merge-and-issue-notes` → `develop` | — | merged | hijau |
 | #14 | `docs/week8-final-sync` → `develop` | — | merged | hijau |
+| #15 | `docs/week8-ci-summary` → `develop` | — | merged | hijau |
 
 > **Catatan jujur soal CI:** PR #1–#3 di-merge saat semua workflow masih merah.
 > Penyebabnya bukan kode PR, melainkan `channel: stable` yang bergeser ke Flutter
@@ -366,6 +367,24 @@ Solusi:
 Cara uji:
 grep -rn "#<" 08-week-8-mid-project-review/     -> kosong
 grep -rn "open |" 08-week-8-mid-project-review/ -> kosong
+```
+
+### PR #15 — `docs/week8-ci-summary` → `develop`
+
+```
+Judul: docs(week8): ringkas bukti CI agar tidak cepat basi
+
+Masalah:
+Bagian "Bukti CI Hijau" disusun sebagai tabel run per nomor (#6-#13), sehingga
+langsung tidak lengkap setiap kali ada PR baru.
+
+Solusi:
+- Ganti tabel per-run dengan ringkasan stabil: 5 run pertama merah karena SDK
+  drift, sejak PR #11 seluruh run success (10 run berurutan #6-#15).
+- Tetap sertakan tautan ke halaman Actions untuk bukti terkini.
+
+Cara uji:
+- Baca bagian "Bukti CI Hijau" di README, lalu cocokkan dengan halaman Actions.
 ```
 
 ---
