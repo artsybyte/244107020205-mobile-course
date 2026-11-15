@@ -1,0 +1,20 @@
+# Normalisasi line ending agar `dart format` dan diff konsisten antara
+# Windows (core.autocrlf=true) dan runner Linux.
+* text=auto eol=lf
+
+*.dart text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.gradle text eol=lf
+*.kts text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.ttf binary
+*.otf binary
+*.jar binary
+*.zip binary

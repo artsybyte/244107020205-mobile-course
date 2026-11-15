@@ -2,8 +2,18 @@
 .dart_tool/
 build/
 .pub/
+
+# pubspec.lock di-commit HANYA untuk project yang diverifikasi CI (week 5 & 7),
+# agar dependency di runner identik dengan lokal lewat
+# `flutter pub get --enforce-lockfile`. Project lain tetap diabaikan.
 pubspec.lock
+!05-week-5-local-storage-offline-first/week5_offline_notes/pubspec.lock
+!07-week-7-clean-architecture/campus_notify/pubspec.lock
 
 # IDE files
 .vscode/
 .idea/
+
+# Crash / JVM replay logs (tidak boleh ikut repo)
+hs_err_pid*.log
+replay_pid*.log
