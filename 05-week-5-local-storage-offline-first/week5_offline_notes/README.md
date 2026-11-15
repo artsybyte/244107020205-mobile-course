@@ -45,6 +45,21 @@ di folder [`docs/`](docs/):
 - [Hasil verifikasi](docs/ai-challenge-verification.md)
 - [Checklist verifikasi mandiri](docs/self-verification-checklist.md)
 
+## Review Minggu 8
+
+Project ini menjadi objek *Mid Project Review* pada Minggu 8. Hasil audit,
+perbaikan, dan dokumentasi review ada di
+[`08-week-8-mid-project-review/`](../../08-week-8-mid-project-review/README.md).
+
+Perubahan yang masuk lewat review:
+
+- `fix(notes)`: retry otomatis Riverpod dimatikan agar error database langsung
+  tampil, dan suite test yang timeout diperbaiki.
+- `feat(notes)`: validasi judul kosong pada dialog tambah catatan.
+- `fix(notes)`: SnackBar saat penyimpanan gagal.
+- `refactor(notes)`: orkestrasi sync dipindah dari `lib/data` ke `lib/pages`.
+- `test(notes)`: test integrasi repository terhadap SQLite in-memory.
+
 ## Error Umum dan Solusinya
 
 | Gejala | Penyebab umum | Solusi |

@@ -20,3 +20,4 @@ Repository untuk praktikum mata kuliah Pemrograman Mobile.
 - [Laporan Minggu-05](./05-week-5-local-storage-offline-first/week5_offline_notes/README.md)
 - [Laporan Minggu-06](./06-week-6-authentication-security-fcm/campus_notify/README.md)
 - [Laporan Minggu-07](./07-week-7-clean-architecture/campus_notify/README.md)
+- [Laporan Minggu-08](./08-week-8-mid-project-review/README.md)
