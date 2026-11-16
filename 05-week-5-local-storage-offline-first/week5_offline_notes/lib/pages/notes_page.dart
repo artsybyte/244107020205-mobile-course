@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/note_search.dart';
 import '../data/local/note.dart';
 import '../data/note_providers.dart';
 import '../data/sync.dart';
 import '../widgets/add_note_dialog.dart';
 import '../widgets/note_tile.dart';
+import '../widgets/notes_search_field.dart';
 
 /// Orkestrasi sync milik lapisan presentasi: memanggil use case data layer
 /// lalu menyegarkan provider. Sebelumnya fungsi ini tinggal di `lib/data`
@@ -28,6 +30,7 @@ class NotesPage extends ConsumerWidget {
     final notes = ref.watch(notesProvider);
     final dirtyCount = ref.watch(dirtyCountProvider);
     final forceOffline = ref.watch(forceOfflineProvider);
+    final query = ref.watch(noteSearchQueryProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -63,9 +66,18 @@ class NotesPage extends ConsumerWidget {
             error: (_, _) => const SizedBox.shrink(),
             loading: () => const LinearProgressIndicator(),
           ),
+          NotesSearchField(
+            value: query,
+            onChanged: (value) =>
+                ref.read(noteSearchQueryProvider.notifier).set(value),
+          ),
           Expanded(
             child: notes.when(
-              data: (items) => _NotesList(items: items),
+              data: (items) => _NotesList(
+                items: searchNotes(items, query),
+                totalCount: items.length,
+                query: query,
+              ),
               error: (error, _) => Center(child: Text('Error: $error')),
               loading: () => const Center(child: CircularProgressIndicator()),
             ),
@@ -161,14 +173,51 @@ class _SyncStatus extends StatelessWidget {
 }
 
 class _NotesList extends ConsumerWidget {
-  const _NotesList({required this.items});
+  const _NotesList({
+    required this.items,
+    required this.totalCount,
+    required this.query,
+  });
 
   final List<Note> items;
+  final int totalCount;
+  final String query;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (items.isEmpty) {
-      return const Center(child: Text('No cached notes'));
+      // Dua keadaan kosong yang berbeda penyebab dan berbeda tindakan:
+      // belum punya catatan sama sekali, versus filter tidak menemukan apa pun.
+      if (totalCount == 0) {
+        return const Center(child: Text('Belum ada catatan'));
+      }
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.search_off,
+                size: 48,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Tidak ada catatan yang cocok dengan "${query.trim()}"',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              TextButton.icon(
+                onPressed: () =>
+                    ref.read(noteSearchQueryProvider.notifier).clear(),
+                icon: const Icon(Icons.clear),
+                label: const Text('Hapus filter'),
+              ),
+            ],
+          ),
+        ),
+      );
     }
     return ListView.builder(
       itemCount: items.length,
