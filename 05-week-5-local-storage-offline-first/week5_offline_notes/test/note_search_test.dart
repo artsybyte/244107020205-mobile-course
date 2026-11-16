@@ -37,6 +37,15 @@ void main() {
       expect(searchNotes(notes, 'zzz-tak-ada'), isEmpty);
     });
 
+    test('spasi ganda pada query tetap mencocokkan judul', () {
+      expect(searchNotes(notes, 'tugas  mobile'), hasLength(1));
+    });
+
+    test('spasi ganda pada judul tetap bisa ditemukan', () {
+      final doubleSpaced = [_note('Tugas  Mobile')];
+      expect(searchNotes(doubleSpaced, 'tugas mobile'), hasLength(1));
+    });
+
     test('urutan catatan tidak berubah setelah difilter', () {
       final result = searchNotes(notes, 'belanja');
       expect(result.map((n) => n.id), [1, 2]);

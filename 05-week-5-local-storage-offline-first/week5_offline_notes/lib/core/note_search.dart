@@ -16,9 +16,17 @@ import '../data/local/note.dart';
 /// - Urutan catatan dipertahankan agar urutan `updated_at DESC` dari repository
 ///   tidak berubah setelah difilter.
 List<Note> searchNotes(List<Note> notes, String query) {
-  final needle = query.trim().toLowerCase();
+  final needle = _normalize(query);
   if (needle.isEmpty) return notes;
   return notes
-      .where((note) => note.title.toLowerCase().contains(needle))
+      .where((note) => _normalize(note.title).contains(needle))
       .toList(growable: false);
 }
+
+/// Menyeragamkan teks sebelum dibandingkan: buang spasi tepi, rapatkan spasi
+/// beruntun menjadi satu, lalu huruf kecil.
+///
+/// Tanpa langkah ini, query `tugas  mobile` (dua spasi) tidak akan menemukan
+/// judul `Tugas Mobile` - pengguna melihat hasil kosong padahal catatannya ada.
+String _normalize(String value) =>
+    value.trim().replaceAll(RegExp(r'\s+'), ' ').toLowerCase();
