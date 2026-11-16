@@ -18,6 +18,24 @@ final forceOfflineProvider = NotifierProvider<ForceOfflineNotifier, bool>(
   ForceOfflineNotifier.new,
 );
 
+/// Query pencarian judul catatan.
+///
+/// Disimpan di provider (bukan `setState` di halaman) supaya empty state bisa
+/// mengosongkan filter tanpa memegang `TextEditingController` halaman.
+class NoteSearchQueryNotifier extends Notifier<String> {
+  @override
+  String build() => '';
+
+  void set(String value) => state = value;
+
+  void clear() => state = '';
+}
+
+final noteSearchQueryProvider =
+    NotifierProvider<NoteSearchQueryNotifier, String>(
+      NoteSearchQueryNotifier.new,
+    );
+
 // Error database lokal tidak akan pulih sendiri, jadi retry otomatis Riverpod
 // (backoff eksponensial) dimatikan agar ErrorView langsung tampil alih-alih
 // spinner berputar puluhan detik.
