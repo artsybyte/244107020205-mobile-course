@@ -12,6 +12,7 @@ seluruh siklusnya diverifikasi dan didokumentasikan.
 | Project | `05-week-5-local-storage-offline-first/week5_offline_notes` |
 | Fitur | Chat asisten atas catatan + cache, kuota, dan fallback offline |
 | Issue | [#20](https://github.com/artsybyte/244107020205-mobile-course/issues/20) |
+| PR fitur | [#21](https://github.com/artsybyte/244107020205-mobile-course/pull/21) (merged) |
 | Branch | `feat/ai-chat` |
 
 ---
