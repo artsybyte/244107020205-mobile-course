@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../core/note_search.dart';
 import '../data/local/note.dart';
@@ -36,6 +37,16 @@ class NotesPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Offline Notes'),
         actions: [
+          IconButton(
+            onPressed: () => context.push('/ai'),
+            icon: const Icon(Icons.auto_awesome),
+            tooltip: 'Tanya catatan (AI)',
+          ),
+          IconButton(
+            onPressed: () => context.push('/settings'),
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: 'Pengaturan',
+          ),
           IconButton(
             onPressed: () => _addNote(context, ref),
             icon: const Icon(Icons.add),

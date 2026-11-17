@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'data/local/database_init.dart';
+import 'pages/ai_chat_page.dart';
 import 'pages/note_detail_page.dart';
 import 'pages/notes_page.dart';
+import 'pages/settings_page.dart';
 
 final appRouter = GoRouter(
   routes: [
@@ -13,6 +15,11 @@ final appRouter = GoRouter(
       path: '/note/:id',
       builder: (context, state) =>
           NoteDetailPage(noteId: int.parse(state.pathParameters['id']!)),
+    ),
+    GoRoute(path: '/ai', builder: (context, state) => const AiChatPage()),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsPage(),
     ),
   ],
 );

@@ -22,3 +22,4 @@ Repository untuk praktikum mata kuliah Pemrograman Mobile.
 - [Laporan Minggu-07](./07-week-7-clean-architecture/campus_notify/README.md)
 - [Laporan Minggu-08](./08-week-8-mid-project-review/README.md)
 - [Laporan Minggu-09](./09-week-9-ai-assisted-development/README.md)
+- [Laporan Minggu-10](./10-week-10-ai-feature-integration/README.md)
